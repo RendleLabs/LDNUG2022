@@ -1,8 +1,8 @@
 using System.Reflection;
-using DotLabs.OpenApi.Web;
 using DunDatApi.Data.Books;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Azure;
+using RendleLabs.OpenApi.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +22,7 @@ builder.Services.AddSingleton<BookData>();
 
 var azureConnectionString = builder.Configuration.GetConnectionString("AzureStorage");
 
-builder.Services.AddAzureClients(azure =>
-{
-    azure.AddTableServiceClient(azureConnectionString);
-});
+builder.Services.AddAzureClients(azure => { azure.AddTableServiceClient(azureConnectionString); });
 
 builder.Services.AddAuthentication(o =>
     {
@@ -44,13 +41,17 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseStaticOpenApi(Assembly.GetExecutingAssembly(), "DunDatApi.openapi.yaml", new StaticOpenApiOptions
-    {
-        Version = 1,
-        AllowAnonymous = true,
-        UiPathPrefix = "swagger",
-        JsonPath = "swagger/v1/openapi.json",
-        YamlPath = "swagger/v1/openapi.yaml",
-    });
+        {
+            Version = 1,
+            UiPathPrefix = "swagger",
+            JsonPath = "swagger/v1/openapi.json",
+            YamlPath = "swagger/v1/openapi.yaml",
+            Elements =
+            {
+                Path = "swagger/v1/docs"
+            }
+        })
+        .AllowAnonymous();
     // app.UseSwagger();
     // app.UseSwaggerUI();
 }

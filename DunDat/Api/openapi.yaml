@@ -63,8 +63,8 @@ paths:
           $ref: '#/components/responses/400BadRequest'
   /read/books/{id}:
     get:
-      operationId: GetBooks
-      summary: Get details of completed books
+      operationId: GetBook
+      summary: Get details of completed book
       tags:
         - Books
       parameters:
