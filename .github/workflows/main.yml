@@ -20,5 +20,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: OpenAPI/dist
+          folder: DunDat/OpenAPI/dist
           branch: gh-pages
