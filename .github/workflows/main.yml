@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install and Build 🔧
-        working-directory: DunDay/OpenAPI
+        working-directory: DunDat/OpenAPI
         run: npx @redocly/cli bundle openapi.yaml -o dist/openapi.yaml
 
       - name: Deploy 🚀
