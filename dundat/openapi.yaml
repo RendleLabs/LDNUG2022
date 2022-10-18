@@ -231,6 +231,21 @@ components:
         errors:
           title:
             - Title is required
+  securitySchemes:
+    auth0:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://dotlabs.eu.auth0.com/authorize?audience=https%3A%2F%2Fapi.dundat.net
+          scopes:
+            email: User email info
+        clientCredentials:
+          tokenUrl: https://dotlabs.eu.auth0.com/oauth/token
+  headers:
+    Location:
+      description: The absolute URI of the created record
+      schema:
+        type: string
   responses:
     201Created:
       description: Record created
@@ -243,18 +258,3 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/ValidationProblemDetails'
-  headers:
-    Location:
-      description: The absolute URI of the created record
-      schema:
-        type: string
-  securitySchemes:
-    auth0:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://dotlabs.eu.auth0.com/authorize?audience=https%3A%2F%2Fapi.dundat.net
-          scopes:
-            email: User email info
-        clientCredentials:
-          tokenUrl: https://dotlabs.eu.auth0.com/oauth/token
