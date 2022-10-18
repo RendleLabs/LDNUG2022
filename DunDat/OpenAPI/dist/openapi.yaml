@@ -7,26 +7,17 @@ info:
     email: mark@rendlelabs.com
     url: https://rendlelabs.com/
 tags:
-  - name: Users
-    description: User-related operations
   - name: Books
     description: Completed books
   - name: Authors
     description: Book authors
   - name: Distances
     description: Runs, walks and bike rides
+  - name: Users
+    description: User-related operations
 security:
   - auth0: []
 paths:
-  /users:
-    put:
-      operationId: InitializeUser
-      summary: Initializes data storage for the user if necessary.
-      tags:
-        - Users
-      responses:
-        '200':
-          description: OK
   /read/books:
     get:
       operationId: GetBooks
@@ -60,7 +51,7 @@ paths:
         '201':
           $ref: '#/components/responses/201Created'
         '400':
-          $ref: '#/components/responses/400BadRequest'
+          $ref: '#/components/responses/400'
   /read/books/{id}:
     get:
       operationId: GetBooks
@@ -112,7 +103,16 @@ paths:
         '201':
           $ref: '#/components/responses/201Created'
         '400':
-          $ref: '#/components/responses/400BadRequest'
+          $ref: '#/components/responses/400'
+  /users:
+    put:
+      operationId: InitializeUser
+      summary: Initializes data storage for the user if necessary.
+      tags:
+        - Users
+      responses:
+        '200':
+          description: OK
 components:
   examples:
     ListOfBooks:
@@ -207,8 +207,6 @@ components:
           type: integer
         instance:
           type: string
-        errors:
-          type: object
         extensions:
           type: object
       required:
@@ -218,28 +216,35 @@ components:
         title: One or more validation errors occurred.
         status: 400
         traceId: 2304-328-02385-0235-03825
+    ValidationProblemDetails:
+      allOf:
+        - $ref: '#/components/schemas/ProblemDetails'
+      type: object
+      properties:
+        errors:
+          type: object
+      example:
+        type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+        title: One or more validation errors occurred.
+        status: 400
+        traceId: 2304-328-02385-0235-03825
         errors:
           title:
             - Title is required
   responses:
+    '400':
+      description: Bad request
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ValidationProblemDetails'
     201Created:
       description: Record created
       headers:
         Location:
           $ref: '#/components/headers/Location'
     400BadRequest:
-      description: Request data was invalid
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-          example:
-            type: https://dundat.net/errors/missing-data
-            title: One or more validation errors occurred
-            status: 400
-            errors:
-              title:
-                - The title field is required
+      $ref: '#/components/responses/400'
   headers:
     Location:
       description: The absolute URI of the created record
