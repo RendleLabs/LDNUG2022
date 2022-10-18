@@ -51,11 +51,11 @@ paths:
         '201':
           $ref: '#/components/responses/201Created'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/400BadRequest'
   /read/books/{id}:
     get:
       operationId: GetBook
-      summary: Get details of completed books
+      summary: Get details of completed book
       tags:
         - Books
       parameters:
@@ -98,20 +98,12 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                author:
-                  type: string
-              required:
-                - title
-                - author
+              $ref: '#/components/schemas/NewDistance'
       responses:
         '201':
           $ref: '#/components/responses/201Created'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/400BadRequest'
   /users:
     put:
       operationId: InitializeUser
@@ -239,25 +231,6 @@ components:
         errors:
           title:
             - Title is required
-  responses:
-    '400':
-      description: Bad request
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ValidationProblemDetails'
-    201Created:
-      description: Record created
-      headers:
-        Location:
-          $ref: '#/components/headers/Location'
-    400BadRequest:
-      $ref: '#/components/responses/400'
-  headers:
-    Location:
-      description: The absolute URI of the created record
-      schema:
-        type: string
   securitySchemes:
     auth0:
       type: oauth2
@@ -268,3 +241,20 @@ components:
             email: User email info
         clientCredentials:
           tokenUrl: https://dotlabs.eu.auth0.com/oauth/token
+  headers:
+    Location:
+      description: The absolute URI of the created record
+      schema:
+        type: string
+  responses:
+    201Created:
+      description: Record created
+      headers:
+        Location:
+          $ref: '#/components/headers/Location'
+    400BadRequest:
+      description: Bad request
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ValidationProblemDetails'

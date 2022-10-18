@@ -49,7 +49,7 @@ paths:
               author: Douglas Adams
       responses: 
         '201':
-          $ref: '#/components/responses/201Created'
+          $ref: './responses/201Created.yaml'
         '400':
           $ref: './responses/400BadRequest.yaml'
   /read/books/{id}:
@@ -101,7 +101,7 @@ paths:
               $ref: '#/components/schemas/NewDistance'
       responses: 
         '201':
-          $ref: '#/components/responses/201Created'
+          $ref: './responses/201Created.yaml'
         '400':
           $ref: './responses/400BadRequest.yaml'
   /users:
@@ -195,17 +195,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Distance'
-  responses: 
-    201Created:
-      description: Record created
-      headers: 
-        Location:
-          $ref: '#/components/headers/Location'
-  headers: 
-    Location:
-      description: The absolute URI of the created record
-      schema:
-        type: string
   securitySchemes:
     auth0:
       type: oauth2
