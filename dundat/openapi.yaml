@@ -51,11 +51,11 @@ paths:
         '201':
           $ref: '#/components/responses/201Created'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/400BadRequest'
   /read/books/{id}:
     get:
-      operationId: GetBooks
-      summary: Get details of completed books
+      operationId: GetBook
+      summary: Get details of completed book
       tags:
         - Books
       parameters:
@@ -103,7 +103,7 @@ paths:
         '201':
           $ref: '#/components/responses/201Created'
         '400':
-          $ref: '#/components/responses/400'
+          $ref: '#/components/responses/400BadRequest'
   /users:
     put:
       operationId: InitializeUser
@@ -195,7 +195,6 @@ components:
       items:
         $ref: '#/components/schemas/Distance'
     ProblemDetails:
-      id: https://dundat.net/schema/problem-details
       type: object
       properties:
         type:
@@ -233,19 +232,17 @@ components:
           title:
             - Title is required
   responses:
-    '400':
-      description: Bad request
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/ValidationProblemDetails'
     201Created:
       description: Record created
       headers:
         Location:
           $ref: '#/components/headers/Location'
     400BadRequest:
-      $ref: '#/components/responses/400'
+      description: Bad request
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ValidationProblemDetails'
   headers:
     Location:
       description: The absolute URI of the created record
