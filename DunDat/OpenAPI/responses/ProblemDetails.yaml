@@ -10,8 +10,6 @@ properties:
     type: integer
   instance:
     type: string
-  errors:
-    type: object
   extensions:
     type: object
 required:
@@ -21,6 +19,3 @@ example:
   title: 'One or more validation errors occurred.'
   status: 400
   traceId: '2304-328-02385-0235-03825'
-  errors:
-    title:
-      - 'Title is required'
